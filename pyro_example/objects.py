@@ -4,7 +4,41 @@ if sys.version_info >= (3, 4):
 	from abc import ABC, abstractmethod
 else:
 	from abc import ABCMeta, abstractmethod
-from utils import is_connected	
+from utils import is_connected, get_uri, get_location
+
+class EzProxy(Pyro4.Proxy):
+	""" Convience subclass of Pyro's Proxy object that facilitates
+		working with proxies by implementing common operations
+	"""
+	@property
+	def connected(self):
+		""" Returns true if this proxy is reachable """
+		return is_connected(self)
+
+	@property
+	def uri(self):
+		""" Retur the URI for this proxy """
+		return get_uri(self)
+
+	@property
+	def location(self):
+		""" Return a tuple (address, port, object name) """
+		return get_location(self)
+
+@Pyro4.expose
+class Closeable(object):
+	""" Define a base class that allows any Pyro4 object to be
+		closed remotely through the `shutdown` method
+
+		:ivar Pyro4.core.daemon: Reference to the thread that is running this object
+	"""
+	def __init__(self, daemon):
+		self._daemon = daemon
+
+	@Pyro4.oneway   # in case call returns much later than daemon.shutdown
+	def shutdown(self):
+		print('Shutting down object...')
+		self._daemon.shutdown()
 
 """ Define an abstract class Worker that enforces everyone
 	implementing the `run` method.
@@ -13,7 +47,7 @@ from utils import is_connected
 """
 if sys.version_info >= (3, 4):
 	@Pyro4.expose
-	class Worker(ABC):
+	class Worker(Closeable, ABC):
 		@abstractmethod
 		def run(self):
 			pass
@@ -22,7 +56,7 @@ if sys.version_info >= (3, 4):
 			return True
 elif (3, 0) <= sys.version_info < (3, 4):
 	@Pyro4.expose
-	class Worker(metaclass=ABCMeta):
+	class Worker(Closeable, metaclass=ABCMeta):
 		@abstractmethod
 		def run(self):
 			pass
@@ -31,7 +65,7 @@ elif (3, 0) <= sys.version_info < (3, 4):
 			return True
 else:
 	@Pyro4.expose
-	class Worker:
+	class Worker(Closeable):
 		__metaclass__ = ABCMeta
 
 		@abstractmethod
@@ -40,8 +74,3 @@ else:
 		@property
 		def is_worker(self):
 			return True
-
-class EzProxy(Pyro4.Proxy):
-	@property
-	def connected(self):
-		return is_connected(self)
