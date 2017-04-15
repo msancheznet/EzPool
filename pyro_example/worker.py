@@ -1,18 +1,19 @@
 import Pyro4
 import argparse
+from objects import Worker
 
 def fib(n):
 	return 1 if n<2 else fib(n-1)+fib(n-2)
 
 @Pyro4.expose
-class Worker(object):
+class FibWorker(Worker):
 	def run(self,n):
 		result = fib(n)
 		print(result)
 		return result
 
 def run_worker(args):
-	Pyro4.Daemon.serveSimple({Worker:args.name}, host=args.address, 
+	Pyro4.Daemon.serveSimple({FibWorker:args.name}, host=args.address, 
 							 port=args.port, ns=args.nserver)
 
 def _get_arg_parser():

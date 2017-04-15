@@ -1,8 +1,18 @@
 import os
 import Pyro4
+from Pyro4.errors import CommunicationError, ConnectionClosedError
 from subprocess import Popen, PIPE, STDOUT
 from threading import Thread
 
+def is_connected(proxy):
+    ''' Check if a Pyro4 proxy is available thorugh the network
+
+            :return bool: True if proxy can communication with remote object
+    '''
+    try:
+        return proxy._pyroBind()
+    except (CommunicationError, ConnectionClosedError):
+        return False
 
 class CommandExecutor(object):
     def __init__(self, path=os.getcwd(), print_shell=False):
@@ -33,11 +43,9 @@ class CommandExecutor(object):
         for line in iter(self._p.stdout.readline, b''):
             print("SHELL:: " + line.decode("utf-8").rstrip())
 
-from threading import Thread
-from worker import run_worker, _get_arg_parser
-
-
 def new_worker():
+    from threading import Thread
+    from worker import run_worker, _get_arg_parser
     run_worker(_get_arg_parser().parse_args(['-p 20001']))
 
 if __name__ == '__main__':

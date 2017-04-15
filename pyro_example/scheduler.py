@@ -3,23 +3,12 @@ import Pyro4
 import sys
 from copy import copy
 from functools import wraps
-from Pyro4.errors import CommunicationError, ConnectionClosedError
 from threading import Thread
 if sys.version_info >= (3, 0):
 	from queue import Queue
 else:
 	from Queue import Queue
-
-
-def is_connected(proxy):
-	''' Check if a Pyro4 proxy is available thorugh the network
-
-			:return bool: True if proxy can communication with remote object
-	'''
-	try:
-		return proxy._pyroBind()
-	except (CommunicationError, ConnectionClosedError):
-		return False
+from objects import EzProxy
 
 class WorkerQueue(Queue):
 	''' Subclass Python's native queue to work with Pyro's proxys. `WorkerQueue`
@@ -41,13 +30,22 @@ class WorkerQueue(Queue):
 
 				:param str uri: A fully formed URI address
 		'''
-		proxy = Pyro4.Proxy(uri)
-		if is_connected(proxy):
-			print('Worker {} is available'.format(uri))
-			self._uris.add(uri)
-			Queue._put(self, proxy)
-		else:
+		print('Hola')
+		proxy = EzProxy(uri)
+		if not proxy.connected:
 			print('Worker {} is not available'.format(uri))
+			return
+		print('Hola2')
+
+		if not proxy.is_worker:
+			Print('Proxy {} is not a compatible worker. You need to subclass Worker'.format(uri))
+			return
+		print('Hola3')
+
+		print('Worker {} is available'.format(uri))
+		self._uris.add(uri)
+		Queue._put(self, proxy)
+		print('Hola4')
 
 	def __contains__(self, uri):
 		""" Reimplement the `contains` operation to check if a given
@@ -80,7 +78,7 @@ class DistributedPool(object):
 
 			.. code-block:: Python
 
-					pool = Pyro4.Proxy('PYRO:pool@localhost:21000')	
+					pool = EzProxy('PYRO:pool@localhost:21000')	
 					pool.register_worker('PYRO:worker@localhost:20000')
 					pool.register_worker('PYRO:worker@localhost:20001')
 

@@ -2,12 +2,13 @@ import Pyro4
 import Pyro4.util
 import pytest
 import sys
+from objects import EzProxy
 
 sys.excepthook = Pyro4.util.excepthook
 
 @pytest.fixture
 def pool():
-	pool = Pyro4.Proxy('PYRO:pool@localhost:21000')
+	pool = EzProxy('PYRO:pool@localhost:21000')
 	pool.add_worker('PYRO:worker@localhost:20000')
 	pool.add_worker('PYRO:worker@localhost:20001')
 	pool.add_worker('PYRO:worker@localhost:20002')
@@ -15,7 +16,7 @@ def pool():
 
 @pytest.fixture
 def empty_pool():
-	pool = Pyro4.Proxy('PYRO:pool@localhost:21001')
+	pool = EzProxy('PYRO:pool@localhost:21001')
 	return pool
 
 def test_distributed_pool_ok(pool):
