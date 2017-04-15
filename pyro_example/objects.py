@@ -74,3 +74,31 @@ else:
 		@property
 		def is_worker(self):
 			return True
+
+def run_object(cls, args):
+    """ Run a Pyro4 object with a set of arguments
+        
+        :param class cls: Class that will be run as a Pyro object in a deamon
+        :param args: Result of argparse.ArgumentParser().parse_args() to have a standard interface
+    """
+    # Create the deamon thread and the object
+    daemon = Pyro4.Daemon(host=args.address, port=args.port)
+    obj    = cls(daemon)
+    if not isinstance(obj, Closeable):
+        daemon.close()
+        raise TypeError('{} must be a subclass of objects.Closeable'.format(cls))
+    
+    # Register the object
+    uri = daemon.register(obj, objectId=args.name)
+
+    # Display message to advertise worker's location
+    print(args.msg)
+    print('   {}'.format(uri))
+    print('Pyro daemon running.')
+    
+    # Enter the loop to wait for jobs
+    daemon.requestLoop()
+
+    # If you reach this point it means that the deamon has been
+    # closed remotely
+    daemon.close()
