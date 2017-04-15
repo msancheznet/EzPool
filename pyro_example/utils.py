@@ -7,12 +7,31 @@ from threading import Thread
 def is_connected(proxy):
     ''' Check if a Pyro4 proxy is available thorugh the network
 
-            :return bool: True if proxy can communication with remote object
+        :param Pyro4.Proxy proxy: 
+        :return bool: True if proxy can communication with remote object
     '''
     try:
-        return proxy._pyroBind()
+        proxy._pyroBind()
     except (CommunicationError, ConnectionClosedError):
         return False
+    else:
+        return True
+
+def get_uri(proxy):
+    """ Get the URI from a proxy
+
+        :param Pyro4.Proxy proxy: 
+        :return str URI: E.g. PYRO:object@localhost:20000
+    """
+    return proxy._pyroUri.asString()
+
+def get_location(proxy):
+    """ Get the location of a URI decomposed as tuple
+
+        :param Pyro4.Proxy proxy: 
+        :return tuple: E.g. (IP address, TCP port, object_id)
+    """
+    return (proxy._pyroUri.host, proxy._pyroUri.port, proxy._pyroUri.object)
 
 class CommandExecutor(object):
     def __init__(self, path=os.getcwd(), print_shell=False):
