@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ezpool.worker &mdash; EzPool v0.1</title>
+    
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="EzPool v0.1" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          EzPool</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">1. Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#introduction">1.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#a-quick-example">1.2. A Quick Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#installation">1.3. Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html#modes-of-operation">2. Modes of Operation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#serial-mode">2.1. Serial Mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#parallel-mode">2.2. Parallel Mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tutorial.html#distributed-mode">2.3. Distributed Mode</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html#ezpool-vs-other-tools">3. EzPool vs. Other Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../API.html">4. Reference Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../API.html#module-ezpool.ezpool">4.1. EzPool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../API.html#module-ezpool.scheduler">4.2. Distributed Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../API.html#module-ezpool.testing">4.3. Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../API.html#module-ezpool.objects">4.4. Utilities</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html">1. Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html#modes-of-operation">2. Modes of Operation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tutorial.html#ezpool-vs-other-tools">3. EzPool vs. Other Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../API.html">4. Reference Guide</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <h1>Source code for ezpool.worker</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">abc</span>
+<span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">Pyro4</span>
+<span class="kn">import</span> <span class="nn">six</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">objects</span> <span class="kn">import</span> <span class="n">run_object</span><span class="p">,</span> <span class="n">Closeable</span>
+
+<span class="k">def</span> <span class="nf">fib</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+	<span class="k">return</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">n</span><span class="o">&lt;</span><span class="mi">2</span> <span class="k">else</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="nd">@Pyro4.expose</span>
+<span class="nd">@six.add_metaclass</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span><span class="p">)</span>
+<div class="viewcode-block" id="BaseWorker"><a class="viewcode-back" href="../../API.html#ezpool.worker.BaseWorker">[docs]</a><span class="k">class</span> <span class="nc">BaseWorker</span><span class="p">(</span><span class="n">Closeable</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot; Define an abstract class Worker that enforces everyone</span>
+<span class="sd">		implementing the ``run`` and ``is_worker`` method.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="nd">@abc.abstractmethod</span>
+<div class="viewcode-block" id="BaseWorker.run"><a class="viewcode-back" href="../../API.html#ezpool.worker.BaseWorker.run">[docs]</a>	<span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot; Method called during the JobManager execution &quot;&quot;&quot;</span>
+		<span class="k">pass</span></div>
+
+	<span class="nd">@property</span>
+	<span class="k">def</span> <span class="nf">is_worker</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot; Return true since this is a worker &quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">True</span>
+
+	<span class="nd">@staticmethod</span>
+	<span class="k">def</span> <span class="nf">parse_args</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+		<span class="k">return</span> <span class="n">_get_args_parser</span><span class="p">()</span><span class="o">.</span><span class="n">parse_args</span><span class="p">(</span><span class="n">args</span><span class="p">)</span></div>
+
+<span class="k">def</span> <span class="nf">build_worker</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+	<span class="nd">@Pyro4.expose</span>
+	<span class="k">class</span> <span class="nc">Worker</span><span class="p">(</span><span class="n">BaseWorker</span><span class="p">):</span>
+		<span class="n">__name__</span> <span class="o">=</span> <span class="s1">&#39;Worker&#39;</span>
+
+		<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">daemon</span><span class="p">):</span>
+			<span class="n">Closeable</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">daemon</span><span class="p">)</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_fun</span> <span class="o">=</span> <span class="n">fun</span>
+
+		<span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+			<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fun</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+	<span class="k">return</span> <span class="n">Worker</span>
+
+<div class="viewcode-block" id="EchoWorker"><a class="viewcode-back" href="../../API.html#ezpool.worker.EchoWorker">[docs]</a><span class="k">class</span> <span class="nc">EchoWorker</span><span class="p">(</span><span class="n">BaseWorker</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot; A simple worker that just echoes back the input it receives &quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inp</span><span class="p">):</span>
+		<span class="k">return</span> <span class="n">inp</span></div>
+		
+<span class="k">def</span> <span class="nf">_get_args_parser</span><span class="p">():</span>
+	<span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+	<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--uri&#39;</span><span class="p">,</span> <span class="s1">&#39;-u&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Job manager URI&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+	<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--address&#39;</span><span class="p">,</span><span class="s1">&#39;-a&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;IP adress&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+	<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--port&#39;</span><span class="p">,</span><span class="s1">&#39;-p&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">21000</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;TCP port&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+	<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--name&#39;</span><span class="p">,</span><span class="s1">&#39;-n&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;worker&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Worker name&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+	<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--msg&#39;</span><span class="p">,</span><span class="s1">&#39;-m&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;Worker ready to proces jobs:&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Message to display when object is started&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+	<span class="c1">#parser.add_argument(&#39;--nserver&#39;,&#39;-ns&#39;, action=&#39;store_true&#39;, help=&#39;Run name server&#39;)</span>
+	<span class="k">return</span> <span class="n">parser</span>
+
+<div class="viewcode-block" id="run_worker"><a class="viewcode-back" href="../../API.html#ezpool.worker.run_worker">[docs]</a><span class="k">def</span> <span class="nf">run_worker</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot; Run a worker. If ``obj`` is a function, wrap it around a ``Worker`` class</span>
+
+<span class="sd">		:param class cls: Class that will be run as a Pyro object in a deamon</span>
+<span class="sd">		:param args: Arguements to parse by the object</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="c1"># If obj is a plain python function, wrap it around a generic worker</span>
+	<span class="c1"># class that calls it when ``run`` is called from the Job Manager.</span>
+	<span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="s2">&quot;run&quot;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+		<span class="n">obj</span> <span class="o">=</span> <span class="n">build_worker</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+	<span class="c1"># Run the worker</span>
+	<span class="n">run_object</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span></div>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+	<span class="n">run_worker</span><span class="p">(</span><span class="n">fib</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+      
+    </p>
+    <p>
+        &copy; Copyright 2017, Marc Sanchez Net.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>1. Tutorial &mdash; EzPool v0.1</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="EzPool v0.1" href="index.html" />
+    <link rel="next" title="4. Reference Guide" href="API.html" />
+    <link rel="prev" title="Welcome to EzPool’s documentation!" href="index.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          EzPool</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction">1.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#a-quick-example">1.2. A Quick Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation">1.3. Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#modes-of-operation">2. Modes of Operation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#serial-mode">2.1. Serial Mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#parallel-mode">2.2. Parallel Mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#distributed-mode">2.3. Distributed Mode</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#ezpool-vs-other-tools">3. EzPool vs. Other Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="API.html">4. Reference Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="API.html#module-ezpool.ezpool">4.1. EzPool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="API.html#module-ezpool.scheduler">4.2. Distributed Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="API.html#module-ezpool.testing">4.3. Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="API.html#module-ezpool.objects">4.4. Utilities</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">1. Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#introduction">1.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#a-quick-example">1.2. A Quick Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#installation">1.3. Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#modes-of-operation">2. Modes of Operation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#serial-mode">2.1. Serial Mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#parallel-mode">2.2. Parallel Mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#distributed-mode">2.3. Distributed Mode</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#ezpool-vs-other-tools">3. EzPool vs. Other Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="API.html">4. Reference Guide</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="tutorial">
+<h1>1. Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>1.1. Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p><strong>EzPool</strong> is a small library that provides the functionality required to run tasks in pools of workers regardless of their physical location. Its <strong>main goal is simplicity</strong> and has been conceived to solve problems such as task serialization, execution and synchronization</p>
+<p>EzPool is written in 100% Python, and builds upon well-known libraries such as <code class="docutils literal"><span class="pre">multiprocessing</span></code> and <code class="docutils literal"><span class="pre">Pyro4</span></code>.</p>
+</div>
+<div class="section" id="a-quick-example">
+<h2>1.2. A Quick Example<a class="headerlink" href="#a-quick-example" title="Permalink to this headline">¶</a></h2>
+<p>Here is a quick example to demonstrate how to use <strong>EzPool</strong> for parallel computing:</p>
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ezpool</span> <span class="kn">import</span> <span class="n">Pool</span>
+
+<span class="k">def</span> <span class="nf">fib</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">n</span> <span class="k">if</span> <span class="n">n</span><span class="o">&lt;</span><span class="mi">2</span> <span class="k">else</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+                <span class="n">results</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">pmap</span><span class="p">(</span><span class="n">fun</span><span class="o">=</span><span class="n">fib</span><span class="p">,</span> <span class="n">tasks</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">),</span> <span class="n">ncpu</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>You might realize that this is essentially equivalent to the Python&#8217;s <code class="docutils literal"><span class="pre">multiprocessing's</span> <span class="pre">pool</span></code> or the <code class="docutils literal"><span class="pre">concurrent.futures's</span> <span class="pre">ProcessPoolExecutor</span></code>. Indeed, the syntax is very similar and, under the hood, <strong>EzPool</strong> just wraps the <code class="docutils literal"><span class="pre">multiprocessing</span></code> module in the same way that the <code class="docutils literal"><span class="pre">ProcessPoolExecutor</span></code> does. However, <strong>EzPool</strong> extends these parallel processing capabilities by allowing distributed computing:</p>
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ezpool</span> <span class="kn">import</span> <span class="n">Pool</span><span class="p">,</span> <span class="n">BaseWorker</span>
+
+<span class="k">class</span> <span class="nc">FibWorker</span><span class="p">(</span><span class="n">BaseWorker</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">n</span> <span class="k">if</span> <span class="n">n</span><span class="o">&lt;</span><span class="mi">2</span> <span class="k">else</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+        <span class="n">workers</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;PYRO:worker@localhost:21000&#39;</span><span class="p">,</span><span class="s1">&#39;PYRO:worker@localhost:21001&#39;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+                <span class="n">results</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">dmap</span><span class="p">(</span><span class="n">fun</span><span class="o">=</span><span class="n">FibWorker</span><span class="p">,</span> <span class="n">tasks</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">),</span> <span class="n">workers</span><span class="o">=</span><span class="n">workers</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>As you can see, the code required to work with a parallel or distributed pool is essentially the same with some very minor modifications. For instance, whereas in multiporcessing case you could simply define a function and pass it to the pool, now the function needs to be wrapped around a class and implemented in the <code class="docutils literal"><span class="pre">run</span></code> method. Similarly, the location of workers is passed directly as an argument to the pool following <code class="docutils literal"><span class="pre">Pyro4</span></code> URI naming convention.</p>
+</div>
+<div class="section" id="installation">
+<h2>1.3. Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p><strong>EzPool</strong> is distributed using the well-known pypi package manager. The easiest way to install it is from the command line using</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">ezpool</span>
+</pre></div>
+</div>
+<p>Another option, also from the command line, is to download and decompress <strong>EzPool</strong> into a directory, open a command window and install it into the desired distribution using</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="modes-of-operation">
+<h1>2. Modes of Operation<a class="headerlink" href="#modes-of-operation" title="Permalink to this headline">¶</a></h1>
+<p><strong>EzPool</strong> contains three modes of operation: Serial, parallel and distributed. They can be utilized through the Pool&#8217;s <code class="docutils literal"><span class="pre">smap</span></code>, <code class="docutils literal"><span class="pre">pmap</span></code> and <code class="docutils literal"><span class="pre">dmap</span></code> functions. In the next sections, I describe the details on how to utilize each of them.</p>
+<p>That being said, and before proceeding to any detailed descriptions, I want to take a moment to show how <strong>EzPool</strong> can be used to run tasks in the three previous modes changing the minimum amount of code. This is useful when you cannot be sure, in advance, of how many jobs will be required (e.g. for testing you could use the serial mode, for medium size problems you could use the parallel, and for really large jobs you could take advantage of multiple computers or even the cloud).</p>
+<p>Consider the following code:</p>
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">from</span> <span class="nn">ezpool</span> <span class="kn">import</span> <span class="n">EzPool</span>
+
+<span class="k">def</span> <span class="nf">fib</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">n</span> <span class="k">if</span> <span class="n">n</span><span class="o">&lt;</span><span class="mi">2</span> <span class="k">else</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">FibWorker</span><span class="p">(</span><span class="n">BaseWorker</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+                <span class="k">return</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">get_args_parser</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot; Add an interface to control the program from a command window &quot;&quot;&quot;</span>
+        <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--tasks&#39;</span><span class="p">,</span>  <span class="s1">&#39;-t&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--mode&#39;</span><span class="p">,</span>   <span class="s1">&#39;-m&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>   <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;serial&#39;</span><span class="p">)</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--ncpu,    &#39;</span><span class="o">-</span><span class="n">n</span><span class="s1">&#39;, nargs=1,   type=int, default=1)</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--workers&#39;</span><span class="p">,</span><span class="s1">&#39;-w&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">parser</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+        <span class="c1"># Parse arguments in the command line</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="n">get_args_parser</span><span class="p">()</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+        <span class="c1"># Wrap the worker into a class if distributed mode is needed</span>
+        <span class="n">fun</span> <span class="o">=</span> <span class="n">FibWorker</span> <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s1">&#39;distributed&#39;</span> <span class="k">else</span> <span class="n">fun</span>
+
+        <span class="c1"># Run all the tasks</span>
+        <span class="k">with</span> <span class="n">Pool</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">mode</span><span class="p">)</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+                <span class="k">print</span> <span class="n">p</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">fun</span><span class="o">=</span><span class="n">fun</span><span class="p">,</span> <span class="n">tasks</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">task</span><span class="p">,</span> <span class="n">ncpu</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">ncpu</span><span class="p">,</span> <span class="n">workers</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">workers</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>If you are familiar with <code class="docutils literal"><span class="pre">Python</span></code>&#8216;s <code class="docutils literal"><span class="pre">argparse</span></code> module, you know that you can now modify the behavior of the tool during runtime by changing the set of input arguments. For instance, assume that the previous lines of code are saved in a file named <em>example.py</em>. Then, from the command line you could do</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">example</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">tasks</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span>
+</pre></div>
+</div>
+<p>This would compute the five first Fibonacci numbers in serial mode. Observe that not all options are defined. Indeed, in serial mode it does not make sense to define workers. On the other hand, if you wrote</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">example</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">mode</span> <span class="n">parallel</span> <span class="o">--</span><span class="n">tasks</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="o">--</span><span class="n">ncpu</span> <span class="mi">2</span>
+</pre></div>
+</div>
+<p>then the same five Fibonacci numbers would be computed in parallel using two cores. Finally, if you specified</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">example</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">mode</span> <span class="n">distributed</span> <span class="o">--</span><span class="n">tasks</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span>
+</pre></div>
+</div>
+<p>then the computation would happen using the distributed mode and off-loading the tasks to a single worker located at <code class="docutils literal"><span class="pre">PYRO:worker&#64;localhost:21000</span></code>, which is the default location. You could also say</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">example</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">mode</span> <span class="n">distributed</span> <span class="o">--</span><span class="n">tasks</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="o">--</span><span class="n">workers</span> <span class="n">PYRO</span><span class="p">:</span><span class="n">worker</span><span class="nd">@localhost</span><span class="p">:</span><span class="mi">21000</span> <span class="n">PYRO</span><span class="p">:</span><span class="n">worker</span><span class="nd">@localhost</span><span class="p">:</span><span class="mi">21001</span>
+</pre></div>
+</div>
+<p>and then two workers would be used, both running in the local machine. Finally, note that simply changing <code class="docutils literal"><span class="pre">localhost</span></code> part of the URI address to another IP address will result in the task being sent over the Internet to a remote machine (as long as that machine is reachable - e.g. no firewalls blocking port 21000 -, and the correct type of worker has been opened previously).</p>
+<div class="section" id="serial-mode">
+<h2>2.1. Serial Mode<a class="headerlink" href="#serial-mode" title="Permalink to this headline">¶</a></h2>
+<p>The serial mode of operation is the most basic option that <strong>EzPool</strong> provides. It is essentially a for loop that executes the tasks provided sequentially and returns a dictionary that maps tasks to results. It is provided for convenience and implements some basic functionality such as task execution time monitoring and overall progress reporting.</p>
+<p>To use <strong>EzPool</strong> in serial mode, two options are possible: Create a pool with and use the <code class="docutils literal"><span class="pre">smap</span></code> function, or create a pool, specify <cite>mode=&#8217;serial&#8217;</cite> in the constructor and then use the <code class="docutils literal"><span class="pre">map</span></code> function.</p>
+<p><strong>EzPool</strong> silently fails when errors in tasks occur. In particular, instead of raising the respective exception, it&#8217;s object is returned and stored in the value part of the dictionary. This allows you to quickly identify which sets of input are causing the task to fail.</p>
+</div>
+<div class="section" id="parallel-mode">
+<h2>2.2. Parallel Mode<a class="headerlink" href="#parallel-mode" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="distributed-mode">
+<h2>2.3. Distributed Mode<a class="headerlink" href="#distributed-mode" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+<div class="section" id="ezpool-vs-other-tools">
+<h1>3. EzPool vs. Other Tools<a class="headerlink" href="#ezpool-vs-other-tools" title="Permalink to this headline">¶</a></h1>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+<div id="sourcelink">
+  <a href="_sources/tutorial.txt"
+     rel="nofollow">Source</a>
+</div>
+      
+    </p>
+    <p>
+        &copy; Copyright 2017, Marc Sanchez Net.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyro_example.objects &mdash; EzPool v0.1</title>
+    
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="EzPool v0.1" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          EzPool</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../API.html">1. Reference Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../API.html#module-pyro_example.trials">1.1. EzPool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../API.html#module-pyro_example.scheduler">1.2. Distributed Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../API.html#module-pyro_example.testing">1.3. Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../API.html#module-pyro_example.objects">1.4. Utilities</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../API.html">1. Reference Guide</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <h1>Source code for pyro_example.objects</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">Pyro4</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span>
+	<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="k">else</span><span class="p">:</span>
+	<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABCMeta</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Process</span>
+<span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">split_uri</span>
+
+<span class="nd">@Pyro4.expose</span>
+<div class="viewcode-block" id="Closeable"><a class="viewcode-back" href="../../API.html#pyro_example.objects.Closeable">[docs]</a><span class="k">class</span> <span class="nc">Closeable</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot; Define a base class that allows any Pyro4 object to be</span>
+<span class="sd">		closed remotely through the `shutdown` method</span>
+
+<span class="sd">		:ivar Pyro4.core.daemon _daemon: Reference to the thread that is running this object</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">daemon</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_daemon</span> <span class="o">=</span> <span class="n">daemon</span>
+
+	<span class="nd">@Pyro4.oneway</span>   <span class="c1"># in case call returns much later than daemon.shutdown</span>
+<div class="viewcode-block" id="Closeable.shutdown"><a class="viewcode-back" href="../../API.html#pyro_example.objects.Closeable.shutdown">[docs]</a>	<span class="k">def</span> <span class="nf">shutdown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot; Shutdown this object from a proxy by shutting down its daemon &quot;&quot;&quot;</span>
+		<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Shutting down object...&#39;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_daemon</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span></div></div>
+
+<span class="sd">&quot;&quot;&quot; Define an abstract class Worker that enforces everyone</span>
+<span class="sd">	implementing the `run` method.</span>
+
+<span class="sd">	.. Tip:: The implementation depends on the version of Python</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span>
+	<span class="nd">@Pyro4.expose</span>
+	<span class="k">class</span> <span class="nc">BaseWorker</span><span class="p">(</span><span class="n">Closeable</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+		<span class="nd">@abstractmethod</span>
+		<span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+			<span class="k">pass</span>
+		<span class="nd">@property</span>
+		<span class="k">def</span> <span class="nf">is_worker</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+			<span class="k">return</span> <span class="bp">True</span>
+<span class="k">else</span><span class="p">:</span>
+	<span class="nd">@Pyro4.expose</span>
+	<span class="k">class</span> <span class="nc">BaseWorker</span><span class="p">(</span><span class="n">Closeable</span><span class="p">):</span>
+		<span class="n">__metaclass__</span> <span class="o">=</span> <span class="n">ABCMeta</span>
+
+		<span class="nd">@abstractmethod</span>
+		<span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+			<span class="k">pass</span>
+		<span class="nd">@property</span>
+		<span class="k">def</span> <span class="nf">is_worker</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+			<span class="k">return</span> <span class="bp">True</span>
+
+<div class="viewcode-block" id="run_object"><a class="viewcode-back" href="../../API.html#pyro_example.objects.run_object">[docs]</a><span class="k">def</span> <span class="nf">run_object</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot; Run a Pyro4 object with a set of arguments</span>
+<span class="sd">		</span>
+<span class="sd">		:param class cls: Class that will be run as a Pyro object in a deamon</span>
+<span class="sd">		:param args: Arguements to parse</span>
+
+<span class="sd">		.. Warning:: Cls will be tagged as exposed by default</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">if</span> <span class="n">cls</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+		<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;NoneType cannot be run as Pyro deamon&#39;</span><span class="p">)</span>
+
+	<span class="c1"># Get the configuration parameters to run this object</span>
+	<span class="n">args</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">parse_args</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">)</span>
+	<span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">uri</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">:</span>
+		<span class="n">args</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">address</span><span class="p">,</span> <span class="n">args</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="n">split_uri</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">uri</span><span class="p">)</span>
+
+	<span class="c1"># Create the deamon thread and the object</span>
+	<span class="n">daemon</span> <span class="o">=</span> <span class="n">Pyro4</span><span class="o">.</span><span class="n">Daemon</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">address</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">port</span><span class="p">)</span>
+	<span class="n">cls</span>    <span class="o">=</span> <span class="n">Pyro4</span><span class="o">.</span><span class="n">expose</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span>
+	<span class="n">obj</span>    <span class="o">=</span> <span class="n">cls</span><span class="p">(</span><span class="n">daemon</span><span class="p">)</span>
+	<span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">Closeable</span><span class="p">):</span>
+		<span class="n">daemon</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+		<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;{} must be a subclass of objects.Closeable&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">cls</span><span class="p">))</span>
+	
+	<span class="c1"># Register the object</span>
+	<span class="n">uri</span> <span class="o">=</span> <span class="n">daemon</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">objectId</span><span class="o">=</span><span class="n">args</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+	<span class="c1"># Display message to advertise worker&#39;s location</span>
+	<span class="k">print</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">msg</span><span class="p">)</span>
+	<span class="k">print</span><span class="p">(</span><span class="s1">&#39;   {}&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">uri</span><span class="p">))</span>
+	<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Pyro daemon running.&#39;</span><span class="p">)</span>
+	
+	<span class="c1"># Enter the loop to wait for jobs</span>
+	<span class="n">daemon</span><span class="o">.</span><span class="n">requestLoop</span><span class="p">()</span>
+
+	<span class="c1"># If you reach this point it means that the deamon has been</span>
+	<span class="c1"># closed remotely</span>
+	<span class="n">daemon</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="spawn_object"><a class="viewcode-back" href="../../API.html#pyro_example.objects.spawn_object">[docs]</a><span class="k">def</span> <span class="nf">spawn_object</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot; Spawn a new process and run the object in there.</span>
+
+<span class="sd">		:param class cls: Class that will be run as a Pyro object in a deamon</span>
+<span class="sd">		:param args: Result of `argparse.ArgumentParser().parse_args()` to have a standard interface</span>
+<span class="sd">		:param Process: The new process where the object is run</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="n">p</span> <span class="o">=</span> <span class="n">Process</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">run_object</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">args</span><span class="p">))</span>
+	<span class="n">p</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+	<span class="k">return</span> <span class="n">p</span></div>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+      
+    </p>
+    <p>
+        &copy; Copyright 2017, Marc Sanchez Net.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

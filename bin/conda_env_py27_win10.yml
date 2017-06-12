@@ -1,0 +1,22 @@
+name: ezpool
+channels:
+- !!python/unicode
+  'defaults'
+dependencies:
+- !!python/unicode
+  'pip=9.0.1=py27_1'
+- !!python/unicode
+  'python=2.7.13=0'
+- !!python/unicode
+  'setuptools=27.2.0=py27_1'
+- !!python/unicode
+  'vs2008_runtime=9.00.30729.5054=0'
+- !!python/unicode
+  'wheel=0.29.0=py27_0'
+- pip:
+  - pyro4==4.59
+  - selectors34==1.1
+  - serpent==1.19
+  - six==1.10.0
+prefix: !!python/unicode 'C:\Users\msanc\Miniconda2\envs\ezpool'
+

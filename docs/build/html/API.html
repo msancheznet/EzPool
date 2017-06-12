@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>4. Reference Guide &mdash; EzPool v0.1</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="EzPool v0.1" href="index.html" />
+    <link rel="prev" title="1. Tutorial" href="tutorial.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="index.html">
+          EzPool</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">1. Tutorial</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#introduction">1.1. Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#a-quick-example">1.2. A Quick Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#installation">1.3. Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html#modes-of-operation">2. Modes of Operation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#serial-mode">2.1. Serial Mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#parallel-mode">2.2. Parallel Mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorial.html#distributed-mode">2.3. Distributed Mode</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html#ezpool-vs-other-tools">3. EzPool vs. Other Tools</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">4. Reference Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-ezpool.ezpool">4.1. EzPool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-ezpool.scheduler">4.2. Distributed Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-ezpool.testing">4.3. Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-ezpool.objects">4.4. Utilities</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html">1. Tutorial</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html#modes-of-operation">2. Modes of Operation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial.html#ezpool-vs-other-tools">3. EzPool vs. Other Tools</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">4. Reference Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-ezpool.ezpool">4.1. EzPool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-ezpool.scheduler">4.2. Distributed Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-ezpool.testing">4.3. Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-ezpool.objects">4.4. Utilities</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <div class="section" id="reference-guide">
+<h1>4. Reference Guide<a class="headerlink" href="#reference-guide" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-ezpool.ezpool">
+<span id="ezpool"></span><span id="api"></span><h2>4.1. EzPool<a class="headerlink" href="#module-ezpool.ezpool" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ezpool.ezpool.EzPool">
+<em class="property">class </em><code class="descclassname">ezpool.ezpool.</code><code class="descname">EzPool</code><span class="sig-paren">(</span><em>mode=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/ezpool.html#EzPool"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.ezpool.EzPool" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>This class provides an unique interface to run a set of tasks in serial, parallel or
+distributed mode. To run tasks in through this Pool, use the <code class="docutils literal"><span class="pre">map</span></code> function.</p>
+<p><strong>Serial Mode</strong>: All tasks are run in order in one core:</p>
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">echo</span><span class="p">(</span><span class="n">task</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">task</span>
+
+<span class="n">tasks</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">))</span>
+<span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map_serial</span><span class="p">(</span><span class="n">echo</span><span class="p">,</span> <span class="n">tasks</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p><strong>Parallel Mode</strong>:All tasks are run in multiple cores of one machine (no order is preserved):</p>
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">echo</span><span class="p">(</span><span class="n">task</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">task</span>
+
+<span class="n">tasks</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">))</span>
+<span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map_parallel</span><span class="p">(</span><span class="n">echo</span><span class="p">,</span> <span class="n">tasks</span><span class="p">,</span> <span class="n">ncores</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p><strong>Distributed Mode</strong>:All tasks are run in multiple cores of one or multiple machines (no order is preserved):</p>
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ezpool.workers</span> <span class="kn">import</span> <span class="n">EchoWorker</span>
+
+<span class="n">tasks</span>   <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">))</span>
+<span class="n">workers</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;PYRO:worker@localhost:21000&#39;</span><span class="p">,</span> <span class="s1">&#39;PYRO:worker@remote:21000&#39;</span><span class="p">)</span>
+<span class="n">worker_type</span> <span class="o">=</span> <span class="n">EchoWorker</span>
+<span class="k">with</span> <span class="n">Pool</span><span class="p">()</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map_distributed</span><span class="p">(</span><span class="n">tasks</span><span class="p">,</span> <span class="n">workers</span><span class="o">=</span><span class="n">workers</span><span class="p">,</span> <span class="n">worker_type</span><span class="o">=</span><span class="n">worker_type</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>The distributed mode relies on the JobManager object to schedule tasks across workers. In
+general, you will run the JobManager on your local machine, but that is not required. Also,
+the JobManager is set up so that you can add/remove workers while computations are going on,
+but removing a worker that is currently running a task will result in that task not being
+evaluated.</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">The <cite>map</cite> function of this pool is blocking, i.e. the current thread will wait until
+all the results are available before proceeding.</p>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">You could use the distributed mode and have the Job Manager and the workers live in
+the localhost. This would essentially be equivalent to the <cite>parallel</cite> mode, but will
+incur in more overhead, so it is not recommended.</p>
+</div>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">For testing purposes, you can use the distributed mode without any parameters for the
+<cite>map</cite> function. This will just spawn new processes in the local machine for the job manager
+and workers, and clean them after the jobs have been run.</p>
+</div>
+<dl class="method">
+<dt id="ezpool.ezpool.EzPool.__enter__">
+<code class="descname">__enter__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/ezpool.html#EzPool.__enter__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.ezpool.EzPool.__enter__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the pool object when entering a <code class="docutils literal"><span class="pre">with</span></code> statement</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ezpool.ezpool.EzPool.__exit__">
+<code class="descname">__exit__</code><span class="sig-paren">(</span><em>exc_type</em>, <em>exc_val</em>, <em>exc_tb</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/ezpool.html#EzPool.__exit__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.ezpool.EzPool.__exit__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Before exiting a <code class="docutils literal"><span class="pre">with</span></code> block, shutdown the pool and all the workers</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>exc_type</strong> &#8211; Type of exception raised within the <code class="docutils literal"><span class="pre">with</span></code> statement</li>
+<li><strong>exc_val</strong> &#8211; Exception value</li>
+<li><strong>exc_tb</strong> &#8211; Exception traceback</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">If an exception occurs within the <code class="docutils literal"><span class="pre">with</span></code> block, it will be raised
+in the calling thread after exiting and shutting everything down.</p>
+</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ezpool.ezpool.EzPool.__weakref__">
+<code class="descname">__weakref__</code><a class="headerlink" href="#ezpool.ezpool.EzPool.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ezpool.ezpool.EzPool._new_proxy">
+<code class="descname">_new_proxy</code><span class="sig-paren">(</span><em>uri</em>, <em>obj_type=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/ezpool.html#EzPool._new_proxy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.ezpool.EzPool._new_proxy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a new proxy for the provided URI. If the URI is not available and its supposed
+to be run locally, a new process will be automatically spawned</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>URI</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; The URI to get a proxy to</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Parma object obj_type:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body">The type of object that should be opened if you cannot connect to it (default is <code class="docutils literal"><span class="pre">None</span></code>)</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">In most cases, you do not need to provide the obj_type since the worker should
+be already available.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="ezpool.ezpool.EzPool._wrap_task">
+<code class="descname">_wrap_task</code><span class="sig-paren">(</span><em>task</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/ezpool.html#EzPool._wrap_task"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.ezpool.EzPool._wrap_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrap task into a tuple</p>
+<p>:param object task
+:return tuple: Wrapped task</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ezpool.ezpool.EzPool.dmap">
+<code class="descname">dmap</code><span class="sig-paren">(</span><em>fun=None</em>, <em>tasks=None</em>, <em>job_mgr='PYRO:jobmgr&#64;localhost:20000'</em>, <em>workers=('PYRO:worker&#64;localhost:21000'</em>, <em>)</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/ezpool.html#EzPool.dmap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.ezpool.EzPool.dmap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run tasks in distributed mode</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>tasks</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; List of tasks to complete. Arguments for each task should
+be passed as a list of tuples, each tuple ordered according
+to the arguments of <code class="docutils literal"><span class="pre">fun</span></code></li>
+<li><strong>job_mgr</strong> &#8211; URI for the job manager (default is &#8216;PYRO:jobmgr&#64;localhost:20000&#8217;)</li>
+<li><strong>workers</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; URIs for the workers (default is [&#8216;PYRO:worker&#64;localhost:21000&#8217;])</li>
+<li><strong>fun</strong> (<em>class</em>) &#8211; Type of worker to run tasks (default is ezpool.workers.EchoWorker)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ezpool.ezpool.EzPool.map">
+<code class="descname">map</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/ezpool.html#EzPool.map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.ezpool.EzPool.map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper for <code class="docutils literal"><span class="pre">smap</span></code>, <code class="docutils literal"><span class="pre">pmap</span></code>, <code class="docutils literal"><span class="pre">dmap</span></code> so that you can programmatically
+use the right type of pool by setting the attribute <code class="docutils literal"><span class="pre">mode</span></code>. The arguments
+of the function must be the same as those in <code class="docutils literal"><span class="pre">smap</span></code>, <code class="docutils literal"><span class="pre">pmap</span></code>, <code class="docutils literal"><span class="pre">dmap</span></code>
+respectively</p>
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">ezpool</span> <span class="kn">import</span> <span class="n">Pool</span>
+
+<span class="k">with</span> <span class="n">Pool</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;parallel&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">fun</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">30</span><span class="p">),</span> <span class="n">ncpu</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+</dd></dl>
+
+<dl class="method">
+<dt id="ezpool.ezpool.EzPool.pmap">
+<code class="descname">pmap</code><span class="sig-paren">(</span><em>fun=None</em>, <em>tasks=None</em>, <em>ncpu=1</em>, <em>msg='Computation process'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/ezpool.html#EzPool.pmap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.ezpool.EzPool.pmap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run tasks in parallel mode</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>fun</strong> (<em>func</em>) &#8211; Function to run for each task</li>
+<li><strong>tasks</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; List of tasks to complete. Arguments for each task should
+be passed as a list of tuples, each tuple ordered according
+to the arguments of <code class="docutils literal"><span class="pre">fun</span></code></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return dict:</th><td class="field-body"><p class="first last">Keys are tasks, values are results</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ezpool.ezpool.EzPool.shutdown">
+<code class="descname">shutdown</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/ezpool.html#EzPool.shutdown"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.ezpool.EzPool.shutdown" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shutdown the pool by shutting down the job manager and the workers</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ezpool.ezpool.EzPool.smap">
+<code class="descname">smap</code><span class="sig-paren">(</span><em>fun=None</em>, <em>tasks=None</em>, <em>msg='Computation process'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/ezpool.html#EzPool.smap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.ezpool.EzPool.smap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run tasks in serial mode</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>fun</strong> (<em>func</em>) &#8211; Function to run for each task</li>
+<li><strong>tasks</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; List of tasks to complete. Arguments for each task should
+be passed as a list of tuples, each tuple ordered according
+to the arguments of <code class="docutils literal"><span class="pre">fun</span></code></li>
+<li><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Message to display at one reporting progress</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return dict:</th><td class="field-body"><p class="first last">Keys are tasks, values are results</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="ezpool.ezpool.show_progress">
+<code class="descclassname">ezpool.ezpool.</code><code class="descname">show_progress</code><span class="sig-paren">(</span><em>task</em>, <em>result</em>, <em>i</em>, <em>N</em>, <em>t</em>, <em>msg='Computation process'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/ezpool.html#show_progress"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.ezpool.show_progress" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print a statement to report progress in the pool</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>task</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#object" title="(in Python v2.7)"><em>object</em></a>) &#8211; The task</li>
+<li><strong>result</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#object" title="(in Python v2.7)"><em>object</em></a>) &#8211; The result object. If it is an exception, then flag error</li>
+<li><strong>i</strong> (<em>integer</em>) &#8211; Index for this task</li>
+<li><strong>N</strong> (<em>integer</em>) &#8211; Total number of tasks</li>
+<li><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Message to display at the beginning</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-ezpool.scheduler">
+<span id="distributed-programming"></span><h2>4.2. Distributed Programming<a class="headerlink" href="#module-ezpool.scheduler" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ezpool.scheduler.JobManager">
+<em class="property">class </em><code class="descclassname">ezpool.scheduler.</code><code class="descname">JobManager</code><span class="sig-paren">(</span><em>daemon</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/scheduler.html#JobManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.scheduler.JobManager" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ezpool.objects.Closeable" title="ezpool.objects.Closeable"><code class="xref py py-class docutils literal"><span class="pre">ezpool.objects.Closeable</span></code></a></p>
+<p>Job manager of workers analogous to Python&#8217;s multiprocessing Pool.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><ul class="first last simple">
+<li><strong>_idle</strong> (<a class="reference internal" href="#ezpool.scheduler.WorkerQueue" title="ezpool.scheduler.WorkerQueue"><em>WorkerQueue</em></a>) &#8211; Queue with idle workers</li>
+<li><strong>_running</strong> (<a class="reference external" href="https://docs.python.org/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; Dictionary that maps URIs with busy workers</li>
+<li><strong>_result</strong> (<a class="reference external" href="https://docs.python.org/library/stdtypes.html#dict" title="(in Python v2.7)"><em>dict</em></a>) &#8211; Dictionary that maps tasks to its results</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>To run this distributed pool simply run this file as a script</p>
+<p>To work with the pool from another process, use the following template:</p>
+<div class="highlight-Python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">pool</span> <span class="o">=</span> <span class="n">EzProxy</span><span class="p">(</span><span class="s1">&#39;PYRO:pool@localhost:21000&#39;</span><span class="p">)</span>     
+<span class="n">pool</span><span class="o">.</span><span class="n">register_worker</span><span class="p">(</span><span class="s1">&#39;PYRO:worker@localhost:20000&#39;</span><span class="p">)</span>
+<span class="n">pool</span><span class="o">.</span><span class="n">register_worker</span><span class="p">(</span><span class="s1">&#39;PYRO:worker@localhost:20001&#39;</span><span class="p">)</span>
+
+<span class="n">results</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<p>Workers of this pool can be any exposed Pyro4 class that contain a <cite>run</cite> method. This
+is called internally be the pool. The following code snippet demonstrates how to build
+a worker:</p>
+<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">Pyro4</span>
+
+<span class="nd">@Pyro4.expose</span>
+<span class="k">class</span> <span class="nc">Worker</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">n</span><span class="p">):</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">fib</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+                <span class="k">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+                <span class="k">return</span> <span class="n">result</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+        <span class="n">Pyro4</span><span class="o">.</span><span class="n">Daemon</span><span class="o">.</span><span class="n">serveSimple</span><span class="p">({</span><span class="n">Worker</span><span class="p">:</span><span class="s1">&#39;worker&#39;</span><span class="p">},</span> <span class="n">host</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="mi">20000</span><span class="p">,</span> <span class="n">ns</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+</td></tr></table></div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">For the previous example to work, a pool and two workers must be opened 
+in separate processes (e.g. separate command windows)</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The <cite>map</cite> function is implemented using threads. The number of threads 
+concurrently running is equal to <cite>min(# tasks, # workers)</cite>, so this
+sets a limitation in the number of tasks that the pool can support</p>
+</div>
+<dl class="method">
+<dt id="ezpool.scheduler.JobManager.__contains__">
+<code class="descname">__contains__</code><span class="sig-paren">(</span><em>uri</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/scheduler.html#JobManager.__contains__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.scheduler.JobManager.__contains__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if the worker identified by this URI is already in the pool</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>uri</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; The worker URI</li>
+<li><strong>bool</strong> &#8211; True if the worker is already in the pool</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ezpool.scheduler.JobManager.__len__">
+<code class="descname">__len__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/scheduler.html#JobManager.__len__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.scheduler.JobManager.__len__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the number of workers available</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ezpool.scheduler.JobManager._close_worker">
+<code class="descname">_close_worker</code><span class="sig-paren">(</span><em>uri</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/scheduler.html#JobManager._close_worker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.scheduler.JobManager._close_worker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close the worker identified by the passed URI</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>URI</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Worker to close</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ezpool.scheduler.JobManager._run_task">
+<code class="descname">_run_task</code><span class="sig-paren">(</span><em>wrk_id</em>, <em>task</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/scheduler.html#JobManager._run_task"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.scheduler.JobManager._run_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run a task by calling the <cite>run</cite> method in the worker. Note that this function
+is called always from a separate thread.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>wrk_id</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Worker URI that will run the task</li>
+<li><strong>task</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#tuple" title="(in Python v2.7)"><em>tuple</em></a>) &#8211; Tuple with the inputs for the <cite>run</cite> function in the workers, properly ordered</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ezpool.scheduler.JobManager._shutdown_proxy">
+<code class="descname">_shutdown_proxy</code><span class="sig-paren">(</span><em>proxy</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/scheduler.html#JobManager._shutdown_proxy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.scheduler.JobManager._shutdown_proxy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shutdown a proxy and release the connection</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">You should only call this function with you have the mutex</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="ezpool.scheduler.JobManager.add_worker">
+<code class="descname">add_worker</code><span class="sig-paren">(</span><em>uri</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/scheduler.html#JobManager.add_worker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.scheduler.JobManager.add_worker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a worker through its URI. If it already present in the pool, ignore.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>uri</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; The URI of the worker to register</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ezpool.scheduler.JobManager.close_worker">
+<code class="descname">close_worker</code><span class="sig-paren">(</span><em>uri</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/scheduler.html#JobManager.close_worker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.scheduler.JobManager.close_worker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close a worker in this pool.</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">This function is thread-safe, so use it for your operations</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>URI</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; Worker to close</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ezpool.scheduler.JobManager.map">
+<code class="descname">map</code><span class="sig-paren">(</span><em>tasks</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/scheduler.html#JobManager.map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.scheduler.JobManager.map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run a set of tasks in this pool. The tasks will be distributed across all workers
+in the distributed system, and the function will block the main thread until all
+results are available for collecting them.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>tasks</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#list" title="(in Python v2.7)"><em>list</em></a>) &#8211; List containing the inputs for each function evaluation.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">If the function evaluated by the distributed system has more than one input,
+pass a list of tuples, one per task to be run</p>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">The current <cite>map</cite> implementation does not support keyword arguments</p>
+</div>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ezpool.scheduler.JobManager.parse_args">
+<em class="property">static </em><code class="descname">parse_args</code><span class="sig-paren">(</span><em>args=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/scheduler.html#JobManager.parse_args"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.scheduler.JobManager.parse_args" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the argument parser for the job manager</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ezpool.scheduler.JobManager.shutdown">
+<code class="descname">shutdown</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/scheduler.html#JobManager.shutdown"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.scheduler.JobManager.shutdown" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shutdown the pool and all its workers</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ezpool.scheduler.JobManager.workers">
+<code class="descname">workers</code><a class="headerlink" href="#ezpool.scheduler.JobManager.workers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get workers available in this pool</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ezpool.scheduler.WorkerQueue">
+<em class="property">class </em><code class="descclassname">ezpool.scheduler.</code><code class="descname">WorkerQueue</code><span class="sig-paren">(</span><em>maxsize=0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/scheduler.html#WorkerQueue"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.scheduler.WorkerQueue" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/queue.html#Queue.Queue" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">Queue.Queue</span></code></a></p>
+<p>Subclass Python&#8217;s native queue to work with Pyro&#8217;s proxys. <cite>WorkerQueue</cite>
+combines a traditional Queue with a Set to facilitate operations that
+check if a connection with a worker is already present in the system.</p>
+<dl class="method">
+<dt id="ezpool.scheduler.WorkerQueue.__bool__">
+<code class="descname">__bool__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/scheduler.html#WorkerQueue.__bool__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.scheduler.WorkerQueue.__bool__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return true if the queue is not empty</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ezpool.scheduler.WorkerQueue.__contains__">
+<code class="descname">__contains__</code><span class="sig-paren">(</span><em>uri</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/scheduler.html#WorkerQueue.__contains__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.scheduler.WorkerQueue.__contains__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reimplement the <cite>contains</cite> operation to check if a given
+worker identified by a given URI is already in the queue</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>uri</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; The URI to check</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ezpool.scheduler.WorkerQueue.__getitem__">
+<code class="descname">__getitem__</code><span class="sig-paren">(</span><em>uri</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/scheduler.html#WorkerQueue.__getitem__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.scheduler.WorkerQueue.__getitem__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find an item within this queue as indexed by its URI.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">You should only use this feature from within the DistributedPool
+along with its <em>mutex</em>. Otherwise, this is not thread-safe</p>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>uri</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; URI of the worker to access</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return Proxy:</th><td class="field-body">Proxy to the worker or None if empty</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ezpool.scheduler.WorkerQueue.__len__">
+<code class="descname">__len__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/scheduler.html#WorkerQueue.__len__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.scheduler.WorkerQueue.__len__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the number of workers available</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ezpool.scheduler.WorkerQueue._add_proxy">
+<code class="descname">_add_proxy</code><span class="sig-paren">(</span><em>proxy</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/scheduler.html#WorkerQueue._add_proxy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.scheduler.WorkerQueue._add_proxy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a worker to this WorkerQueue</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>proxy</strong> (<a class="reference internal" href="#ezpool.ezproxy.EzProxy" title="ezpool.ezproxy.EzProxy"><em>EzProxy</em></a>) &#8211; The proxy that identifies the worker</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ezpool.scheduler.WorkerQueue._init">
+<code class="descname">_init</code><span class="sig-paren">(</span><em>maxsize</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/scheduler.html#WorkerQueue._init"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.scheduler.WorkerQueue._init" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the Queue. Use the <cite>_init</cite> function as indicated in Python&#8217;s 
+documentation</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>maxsize</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#int" title="(in Python v2.7)"><em>int</em></a>) &#8211; Max size for the queue</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="ezpool.scheduler.WorkerQueue.add">
+<code class="descname">add</code><span class="sig-paren">(</span><em>uri</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/scheduler.html#WorkerQueue.add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.scheduler.WorkerQueue.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convenience function to add a worker to the queue through its URI</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>uri</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; A fully formed URI address</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="ezpool.scheduler._get_args_parser">
+<code class="descclassname">ezpool.scheduler.</code><code class="descname">_get_args_parser</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/scheduler.html#_get_args_parser"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.scheduler._get_args_parser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create the argument parser that defines the set of options available to configure
+a distributed pool</p>
+<div class="admonition tip">
+<p class="first admonition-title">Tip</p>
+<p class="last">To see options available, locate this file in a command shell and execute <cite>python distributed_pool.py -h</cite></p>
+</div>
+</dd></dl>
+
+<span class="target" id="module-ezpool.worker"></span><dl class="class">
+<dt id="ezpool.worker.BaseWorker">
+<em class="property">class </em><code class="descclassname">ezpool.worker.</code><code class="descname">BaseWorker</code><span class="sig-paren">(</span><em>daemon</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/worker.html#BaseWorker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.worker.BaseWorker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ezpool.objects.Closeable" title="ezpool.objects.Closeable"><code class="xref py py-class docutils literal"><span class="pre">ezpool.objects.Closeable</span></code></a></p>
+<p>Define an abstract class Worker that enforces everyone
+implementing the <code class="docutils literal"><span class="pre">run</span></code> and <code class="docutils literal"><span class="pre">is_worker</span></code> method.</p>
+<dl class="attribute">
+<dt id="ezpool.worker.BaseWorker.is_worker">
+<code class="descname">is_worker</code><a class="headerlink" href="#ezpool.worker.BaseWorker.is_worker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return true since this is a worker</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ezpool.worker.BaseWorker.run">
+<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/worker.html#BaseWorker.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.worker.BaseWorker.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Method called during the JobManager execution</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="ezpool.worker.EchoWorker">
+<em class="property">class </em><code class="descclassname">ezpool.worker.</code><code class="descname">EchoWorker</code><span class="sig-paren">(</span><em>daemon</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/worker.html#EchoWorker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.worker.EchoWorker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#ezpool.worker.BaseWorker" title="ezpool.worker.BaseWorker"><code class="xref py py-class docutils literal"><span class="pre">ezpool.worker.BaseWorker</span></code></a></p>
+<p>A simple worker that just echoes back the input it receives</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="ezpool.worker.run_worker">
+<code class="descclassname">ezpool.worker.</code><code class="descname">run_worker</code><span class="sig-paren">(</span><em>obj</em>, <em>args=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/worker.html#run_worker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.worker.run_worker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run a worker. If <code class="docutils literal"><span class="pre">obj</span></code> is a function, wrap it around a <code class="docutils literal"><span class="pre">Worker</span></code> class</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cls</strong> (<em>class</em>) &#8211; Class that will be run as a Pyro object in a deamon</li>
+<li><strong>args</strong> &#8211; Arguements to parse by the object</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="module-ezpool.testing">
+<span id="testing"></span><h2>4.3. Testing<a class="headerlink" href="#module-ezpool.testing" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-ezpool.objects">
+<span id="utilities"></span><h2>4.4. Utilities<a class="headerlink" href="#module-ezpool.objects" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="ezpool.objects.Closeable">
+<em class="property">class </em><code class="descclassname">ezpool.objects.</code><code class="descname">Closeable</code><span class="sig-paren">(</span><em>daemon</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/objects.html#Closeable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.objects.Closeable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/library/functions.html#object" title="(in Python v2.7)"><code class="xref py py-class docutils literal"><span class="pre">object</span></code></a></p>
+<p>Define a base class that allows any Pyro4 object to be
+closed remotely through the <cite>shutdown</cite> method</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Variables:</th><td class="field-body"><strong>_daemon</strong> (<em>Pyro4.core.daemon</em>) &#8211; Reference to the thread that is running this object</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="ezpool.objects.Closeable.__weakref__">
+<code class="descname">__weakref__</code><a class="headerlink" href="#ezpool.objects.Closeable.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ezpool.objects.Closeable.shutdown">
+<code class="descname">shutdown</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/objects.html#Closeable.shutdown"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.objects.Closeable.shutdown" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shutdown this object from a proxy by shutting down its daemon</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="ezpool.objects.run_object">
+<code class="descclassname">ezpool.objects.</code><code class="descname">run_object</code><span class="sig-paren">(</span><em>cls</em>, <em>args=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/objects.html#run_object"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.objects.run_object" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run a Pyro4 object with a set of arguments</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cls</strong> (<em>class</em>) &#8211; Class that will be run as a Pyro object in a deamon</li>
+<li><strong>args</strong> &#8211; Arguements to parse by the object</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Cls will be tagged as exposed by default</p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="ezpool.objects.spawn_object">
+<code class="descclassname">ezpool.objects.</code><code class="descname">spawn_object</code><span class="sig-paren">(</span><em>cls</em>, <em>args=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/objects.html#spawn_object"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.objects.spawn_object" title="Permalink to this definition">¶</a></dt>
+<dd><p>Spawn a new process and run the object in there.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cls</strong> (<em>class</em>) &#8211; Class that will be run as a Pyro object in a deamon</li>
+<li><strong>args</strong> &#8211; Arguements to parse by the object</li>
+<li><strong>Process</strong> &#8211; The new process where the object is run</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<span class="target" id="module-ezpool.ezproxy"></span><dl class="class">
+<dt id="ezpool.ezproxy.EzProxy">
+<em class="property">class </em><code class="descclassname">ezpool.ezproxy.</code><code class="descname">EzProxy</code><span class="sig-paren">(</span><em>uri</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/ezproxy.html#EzProxy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.ezproxy.EzProxy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Pyro4.core.Proxy</span></code></p>
+<p>Convience subclass of Pyro&#8217;s Proxy object that facilitates
+working with proxies by implementing common operations</p>
+<dl class="method">
+<dt id="ezpool.ezproxy.EzProxy.close">
+<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/ezproxy.html#EzProxy.close"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.ezproxy.EzProxy.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close a proxy by releasing the Pyro connection</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ezpool.ezproxy.EzProxy.connected">
+<code class="descname">connected</code><a class="headerlink" href="#ezpool.ezproxy.EzProxy.connected" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if this proxy is reachable</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ezpool.ezproxy.EzProxy.location">
+<code class="descname">location</code><a class="headerlink" href="#ezpool.ezproxy.EzProxy.location" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tuple with (address, port, object name)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ezpool.ezproxy.EzProxy.name">
+<code class="descname">name</code><a class="headerlink" href="#ezpool.ezproxy.EzProxy.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Proxy name</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ezpool.ezproxy.EzProxy.uri">
+<code class="descname">uri</code><a class="headerlink" href="#ezpool.ezproxy.EzProxy.uri" title="Permalink to this definition">¶</a></dt>
+<dd><p>URI for this proxy</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="ezpool.ezproxy.connect_to">
+<code class="descclassname">ezpool.ezproxy.</code><code class="descname">connect_to</code><span class="sig-paren">(</span><em>uri</em>, <em>obj_cls</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ezpool/ezproxy.html#connect_to"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ezpool.ezproxy.connect_to" title="Permalink to this definition">¶</a></dt>
+<dd><p>Connect to a URI and return its proxy. If the URI is in localhost and the object is not available, spawn a new process and run it there.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>URI</strong> (<a class="reference external" href="https://docs.python.org/library/functions.html#str" title="(in Python v2.7)"><em>str</em></a>) &#8211; The URI to connect to</li>
+<li><strong>obj_cls</strong> (<em>class</em>) &#8211; Class that will be run inside the Pyro object in a deamon</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return tuple:</th><td class="field-body"><p class="first last">(Proxy, Process)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+</div>
+
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+<div id="sourcelink">
+  <a href="_sources/API.txt"
+     rel="nofollow">Source</a>
+</div>
+      
+    </p>
+    <p>
+        &copy; Copyright 2017, Marc Sanchez Net.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

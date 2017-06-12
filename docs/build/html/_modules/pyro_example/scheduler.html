@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pyro_example.scheduler &mdash; EzPool v0.1</title>
+    
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="EzPool v0.1" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          EzPool</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../API.html">1. Reference Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../API.html#module-pyro_example.trials">1.1. EzPool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../API.html#module-pyro_example.scheduler">1.2. Distributed Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../API.html#module-pyro_example.testing">1.3. Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../API.html#module-pyro_example.objects">1.4. Utilities</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../API.html">1. Reference Guide</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <h1>Source code for pyro_example.scheduler</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">Pyro4</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">wraps</span>
+<span class="kn">from</span> <span class="nn">threading</span> <span class="kn">import</span> <span class="n">Thread</span><span class="p">,</span> <span class="n">Lock</span>
+<span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
+	<span class="kn">from</span> <span class="nn">queue</span> <span class="kn">import</span> <span class="n">Queue</span>
+<span class="k">else</span><span class="p">:</span>
+	<span class="kn">from</span> <span class="nn">Queue</span> <span class="kn">import</span> <span class="n">Queue</span>
+<span class="kn">from</span> <span class="nn">objects</span> <span class="kn">import</span> <span class="n">Closeable</span><span class="p">,</span> <span class="n">run_object</span>
+<span class="kn">from</span> <span class="nn">proxies</span> <span class="kn">import</span> <span class="n">EzProxy</span>
+
+<div class="viewcode-block" id="WorkerQueue"><a class="viewcode-back" href="../../API.html#pyro_example.scheduler.WorkerQueue">[docs]</a><span class="k">class</span> <span class="nc">WorkerQueue</span><span class="p">(</span><span class="n">Queue</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39; Subclass Python&#39;s native queue to work with Pyro&#39;s proxys. `WorkerQueue`</span>
+<span class="sd">			combines a traditional Queue with a Set to facilitate operations that</span>
+<span class="sd">			check if a connection with a worker is already present in the system.</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+
+	<span class="k">def</span> <span class="nf">_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">maxsize</span><span class="p">):</span>
+		<span class="sd">&#39;&#39;&#39; Initialize the Queue. Use the `_init` function as indicated in Python&#39;s </span>
+<span class="sd">				documentation</span>
+
+<span class="sd">				:param int maxsize: Max size for the queue</span>
+<span class="sd">		&#39;&#39;&#39;</span>
+		<span class="n">Queue</span><span class="o">.</span><span class="n">_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">maxsize</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_uris</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+<div class="viewcode-block" id="WorkerQueue.add"><a class="viewcode-back" href="../../API.html#pyro_example.scheduler.WorkerQueue.add">[docs]</a>	<span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uri</span><span class="p">):</span>
+		<span class="sd">&#39;&#39;&#39; Convenience function to add a worker to the queue through its URI</span>
+
+<span class="sd">			:param str uri: A fully formed URI address</span>
+<span class="sd">		&#39;&#39;&#39;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_add_proxy</span><span class="p">(</span><span class="n">EzProxy</span><span class="p">(</span><span class="n">uri</span><span class="p">))</span></div>
+
+	<span class="k">def</span> <span class="nf">_add_proxy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">proxy</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot; Add a worker to this WorkerQueue</span>
+
+<span class="sd">			:param EzProxy proxy: The proxy that identifies the worker</span>
+<span class="sd">		&quot;&quot;&quot;</span>	
+		<span class="n">uri</span> <span class="o">=</span> <span class="n">proxy</span><span class="o">.</span><span class="n">uri</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="n">proxy</span><span class="o">.</span><span class="n">connected</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;Worker {} is not available&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">uri</span><span class="p">))</span>
+
+		<span class="k">if</span> <span class="ow">not</span> <span class="n">proxy</span><span class="o">.</span><span class="n">is_worker</span><span class="p">:</span>
+			<span class="n">Print</span><span class="p">(</span><span class="s1">&#39;Proxy {} is not a compatible worker. You need to subclass Worker&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">uri</span><span class="p">))</span>
+			<span class="k">return</span>
+
+		<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Worker {} is available&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">uri</span><span class="p">))</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_uris</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span>
+		<span class="n">Queue</span><span class="o">.</span><span class="n">_put</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">proxy</span><span class="p">)</span>
+
+	<span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uri</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot; Find an item within this queue as indexed by its URI.</span>
+
+<span class="sd">			.. Warning:: You should only use this feature from within the DistributedPool</span>
+<span class="sd">						 along with its *mutex*. Otherwise, this is not thread-safe</span>
+
+<span class="sd">			:param str uri: URI of the worker to access</span>
+<span class="sd">			:return Proxy: Proxy to the worker or None if empty</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="c1"># The queue is empty, so return None</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">qsize</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+			<span class="k">return</span>
+
+		<span class="c1"># Iterate through the queue grabbing a worker, comparing its URI with the one provided</span>
+		<span class="c1"># and putting it back if they do not match. Note that this implementation assumes that</span>
+		<span class="c1"># all workers are equal and therefore their order does not matter</span>
+		<span class="n">found</span> <span class="o">=</span> <span class="bp">None</span>
+		<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">qsize</span><span class="p">()):</span>
+			<span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_nowait</span><span class="p">()</span>
+			<span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">uri</span> <span class="o">==</span> <span class="n">uri</span><span class="p">:</span>
+				<span class="n">found</span> <span class="o">=</span> <span class="n">p</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">_uris</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span>
+				<span class="k">break</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">put_nowait</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+		<span class="k">return</span> <span class="n">found</span>
+
+	<span class="k">def</span> <span class="nf">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uri</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot; Reimplement the `contains` operation to check if a given</span>
+<span class="sd">				worker identified by a given URI is already in the queue</span>
+
+<span class="sd">				:param str uri: The URI to check</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="n">uri</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_uris</span>
+
+	<span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot; Return the number of workers available &quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">qsize</span><span class="p">()</span>
+
+	<span class="k">def</span> <span class="nf">__bool__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot; Return true if the queue is not empty &quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">empty</span><span class="p">()</span></div>
+
+
+<span class="nd">@Pyro4.expose</span>
+<span class="nd">@Pyro4.behavior</span><span class="p">(</span><span class="n">instance_mode</span><span class="o">=</span><span class="s2">&quot;single&quot;</span><span class="p">)</span>
+<div class="viewcode-block" id="JobManager"><a class="viewcode-back" href="../../API.html#pyro_example.scheduler.JobManager">[docs]</a><span class="k">class</span> <span class="nc">JobManager</span><span class="p">(</span><span class="n">Closeable</span><span class="p">):</span>
+	<span class="sd">&#39;&#39;&#39; Job manager of workers analogous to Python&#39;s multiprocessing Pool.</span>
+
+<span class="sd">		:ivar WorkerQueue _idle: Queue with idle workers</span>
+<span class="sd">		:ivar dict _running: Dictionary that maps URIs with busy workers</span>
+<span class="sd">		:ivar dict _result: Dictionary that maps tasks to its results</span>
+
+<span class="sd">		To run this distributed pool simply run this file as a script</span>
+
+<span class="sd">		To work with the pool from another process, use the following template:</span>
+
+<span class="sd">		.. code-block:: Python</span>
+<span class="sd">			:linenos:</span>
+
+<span class="sd">			pool = EzProxy(&#39;PYRO:pool@localhost:21000&#39;)	</span>
+<span class="sd">			pool.register_worker(&#39;PYRO:worker@localhost:20000&#39;)</span>
+<span class="sd">			pool.register_worker(&#39;PYRO:worker@localhost:20001&#39;)</span>
+
+<span class="sd">			results = pool.map(inputs)</span>
+
+<span class="sd">		Workers of this pool can be any exposed Pyro4 class that contain a `run` method. This</span>
+<span class="sd">		is called internally be the pool. The following code snippet demonstrates how to build</span>
+<span class="sd">		a worker:</span>
+
+<span class="sd">		.. code-block:: Python</span>
+<span class="sd">			:linenos:</span>
+
+<span class="sd">			import Pyro4</span>
+
+<span class="sd">			@Pyro4.expose</span>
+<span class="sd">			class Worker(object):</span>
+<span class="sd">				def run(self,n):</span>
+<span class="sd">					result = fib(n)</span>
+<span class="sd">					print(result)</span>
+<span class="sd">					return result</span>
+
+<span class="sd">			if __name__ == &#39;__main__&#39;:</span>
+<span class="sd">					Pyro4.Daemon.serveSimple({Worker:&#39;worker&#39;}, host=&#39;localhost&#39;, port=20000, ns=False)</span>
+
+<span class="sd">		.. Warning:: For the previous example to work, a pool and two workers must be opened </span>
+<span class="sd">				 	 in separate processes (e.g. separate command windows)</span>
+<span class="sd">		.. Warning:: The `map` function is implemented using threads. The number of threads </span>
+<span class="sd">					 concurrently running is equal to `min(# tasks, # workers)`, so this</span>
+<span class="sd">					 sets a limitation in the number of tasks that the pool can support</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">daemon</span><span class="p">):</span>
+		<span class="n">Closeable</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">daemon</span><span class="p">)</span>
+
+		<span class="sd">&#39;&#39;&#39;Initialize the pool.&#39;&#39;&#39;</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_idle</span> <span class="o">=</span> <span class="n">WorkerQueue</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_running</span> <span class="o">=</span> <span class="p">{}</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_results</span> <span class="o">=</span> <span class="p">{}</span>
+
+		<span class="c1"># The mutex must be held to change the pool of workers</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_mutex</span> <span class="o">=</span> <span class="n">Lock</span><span class="p">()</span>
+
+		<span class="c1"># Indicate that this pool has been shutdown</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_shut</span> <span class="o">=</span> <span class="bp">False</span>
+
+	<span class="nd">@property</span>
+	<span class="k">def</span> <span class="nf">workers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&#39;&#39;&#39;	Get workers available in this pool &#39;&#39;&#39;</span>
+		<span class="n">uris</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_idle</span><span class="o">.</span><span class="n">_uris</span><span class="p">)</span>
+		<span class="n">uris</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_running</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>	<span class="c1"># In reality this is not necessary, no one takes URIs out of _idle queue</span>
+		<span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="n">uris</span><span class="p">)</span>
+
+<div class="viewcode-block" id="JobManager.add_worker"><a class="viewcode-back" href="../../API.html#pyro_example.scheduler.JobManager.add_worker">[docs]</a>	<span class="k">def</span> <span class="nf">add_worker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uri</span><span class="p">):</span>
+		<span class="sd">&#39;&#39;&#39; Add a worker through its URI. If it already present in the pool, ignore. </span>
+
+<span class="sd">				:param str uri: The URI of the worker to register</span>
+<span class="sd">		&#39;&#39;&#39;</span>
+		<span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mutex</span><span class="p">:</span>
+			<span class="k">if</span> <span class="n">uri</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">workers</span><span class="p">:</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">_idle</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="JobManager.close_worker"><a class="viewcode-back" href="../../API.html#pyro_example.scheduler.JobManager.close_worker">[docs]</a>	<span class="k">def</span> <span class="nf">close_worker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uri</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot; Close a worker in this pool.</span>
+
+<span class="sd">			.. Tip:: This function is thread-safe, so use it for your operations</span>
+
+<span class="sd">			:param str URI: Worker to close</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mutex</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_close_worker</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span></div>
+
+	<span class="k">def</span> <span class="nf">_close_worker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uri</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot; Close the worker identified by the passed URI</span>
+<span class="sd"> 			</span>
+<span class="sd"> 			:param str URI: Worker to close</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">if</span> <span class="n">uri</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_running</span><span class="p">:</span>
+			<span class="c1"># If worker is running, it can be accessed directly</span>
+			<span class="k">print</span><span class="p">(</span><span class="s1">&#39;WARNING: Worker {} is shutting down while still processing a job&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">uri</span><span class="p">))</span>
+			<span class="n">proxy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_running</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_shutdown_proxy</span><span class="p">(</span><span class="n">proxy</span><span class="p">)</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="c1"># Get proxy from the idle queue of workers</span>
+			<span class="n">proxy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_idle</span><span class="p">[</span><span class="n">uri</span><span class="p">]</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_shutdown_proxy</span><span class="p">(</span><span class="n">proxy</span><span class="p">)</span>
+
+		<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Worker {} has been closed&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">uri</span><span class="p">))</span>
+
+<div class="viewcode-block" id="JobManager.shutdown"><a class="viewcode-back" href="../../API.html#pyro_example.scheduler.JobManager.shutdown">[docs]</a>	<span class="k">def</span> <span class="nf">shutdown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot; Shutdown the pool and all its workers &quot;&quot;&quot;</span>
+		<span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mutex</span><span class="p">:</span>
+			<span class="k">for</span> <span class="n">uri</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">workers</span><span class="p">:</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">_close_worker</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_shut</span> <span class="o">=</span> <span class="bp">True</span>
+		<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Job manager {} has been closed&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">uri</span><span class="p">))</span></div>
+
+	<span class="k">def</span> <span class="nf">_shutdown_proxy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">proxy</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot; Shutdown a proxy and release the connection </span>
+<span class="sd">			</span>
+<span class="sd">			.. Warning:: You should only call this function with you have the mutex</span>
+<span class="sd">		&quot;&quot;&quot;</span>
+		<span class="k">if</span> <span class="n">proxy</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+			<span class="k">print</span><span class="p">(</span><span class="s1">&#39;Worker {} is not present in the pool&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">uri</span><span class="p">))</span>
+			<span class="k">return</span>
+		<span class="n">proxy</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+		<span class="n">proxy</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+		<span class="k">del</span> <span class="n">proxy</span>
+
+	<span class="k">def</span> <span class="nf">__contains__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uri</span><span class="p">):</span>
+		<span class="sd">&#39;&#39;&#39; Check if the worker identified by this URI is already in the pool</span>
+
+<span class="sd">				:param str uri: The worker URI</span>
+<span class="sd">				:param bool: True if the worker is already in the pool</span>
+<span class="sd">		&#39;&#39;&#39;</span>
+		<span class="k">return</span> <span class="p">(</span><span class="n">uri</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">workers</span><span class="p">)</span>
+
+	<span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="sd">&quot;&quot;&quot; Return the number of workers available &quot;&quot;&quot;</span>
+		<span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_idle</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_running</span><span class="p">)</span>
+
+<div class="viewcode-block" id="JobManager.map"><a class="viewcode-back" href="../../API.html#pyro_example.scheduler.JobManager.map">[docs]</a>	<span class="k">def</span> <span class="nf">map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tasks</span><span class="p">):</span>
+		<span class="sd">&#39;&#39;&#39;	Run a set of tasks in this pool. The tasks will be distributed across all workers</span>
+<span class="sd">			in the distributed system, and the function will block the main thread until all</span>
+<span class="sd">			results are available for collecting them.</span>
+
+<span class="sd">			:param list tasks: List containing the inputs for each function evaluation.</span>
+
+<span class="sd">			.. Tip:: If the function evaluated by the distributed system has more than one input,</span>
+<span class="sd">							 pass a list of tuples, one per task to be run</span>
+<span class="sd">			.. Warning:: The current `map` implementation does not support keyword arguments</span>
+<span class="sd">		&#39;&#39;&#39;</span>
+		<span class="c1"># Check if there are any workers available</span>
+		<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_idle</span><span class="p">:</span>
+			<span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;No workers available&#39;</span><span class="p">)</span>
+
+		<span class="c1"># Initialize variables</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+		<span class="n">threads</span> <span class="o">=</span> <span class="p">[]</span>
+
+		<span class="c1"># Submit the tasks, running each of them in a separate thread</span>
+		<span class="k">for</span> <span class="n">task</span> <span class="ow">in</span> <span class="n">tasks</span><span class="p">:</span>
+			<span class="c1"># Acquire the mutex so that you cannot add/delete worker while you</span>
+			<span class="c1"># are using it here</span>
+			<span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mutex</span><span class="p">:</span>
+				<span class="c1"># If this pool is shut, do not submit any more tasks</span>
+				<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_shut</span><span class="p">:</span>
+					<span class="k">break</span>
+
+				<span class="c1"># Get the next available worker. If all of them are busy, block for</span>
+				<span class="c1"># now</span>
+				<span class="n">worker</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_idle</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+				<span class="n">wrk_id</span> <span class="o">=</span> <span class="n">worker</span><span class="o">.</span><span class="n">uri</span>
+
+				<span class="c1"># Initialize the thread and mark this worker as running</span>
+				<span class="c1"># Note: Do not start the thread before putting it into _running to</span>
+				<span class="c1"># prevent concurrency problems</span>
+				<span class="n">thread</span> <span class="o">=</span> <span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_run_task</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">wrk_id</span><span class="p">,</span> <span class="n">task</span><span class="p">))</span>
+				<span class="n">threads</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">thread</span><span class="p">)</span>
+				<span class="bp">self</span><span class="o">.</span><span class="n">_running</span><span class="p">[</span><span class="n">wrk_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">worker</span>
+				<span class="n">thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+		<span class="c1"># Wait for all the threads that monitor workers to finish. This ensures that</span>
+		<span class="c1"># all results are available when we return from this function</span>
+		<span class="k">for</span> <span class="n">thread</span> <span class="ow">in</span> <span class="n">threads</span><span class="p">:</span>
+			<span class="n">thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+
+		<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_results</span></div>
+
+	<span class="k">def</span> <span class="nf">_run_task</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">wrk_id</span><span class="p">,</span> <span class="n">task</span><span class="p">):</span>
+		<span class="sd">&#39;&#39;&#39; Run a task by calling the `run` method in the worker. Note that this function</span>
+<span class="sd">			is called always from a separate thread.</span>
+
+<span class="sd">			:param str wrk_id: Worker URI that will run the task</span>
+<span class="sd">			:param tuple task: Tuple with the inputs for the `run` function in the workers, properly ordered</span>
+<span class="sd">		&#39;&#39;&#39;</span>
+		<span class="c1"># Get the worker that will perform the task. If not present, this means that another</span>
+		<span class="c1"># concurrent task deleted it.</span>
+		<span class="n">worker</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_running</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">wrk_id</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">worker</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="n">task</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;Worker was unavailable at evaluation time&#39;</span>
+			<span class="k">return</span>
+
+		<span class="c1"># Wrap the task with a try catch to silently fail if something goes wrong in the worker.</span>
+		<span class="c1"># The user will see that, for a given task, the map has returned an</span>
+		<span class="c1"># Exception</span>
+		<span class="k">try</span><span class="p">:</span>
+			<span class="n">result</span> <span class="o">=</span> <span class="n">worker</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+		<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+			<span class="n">result</span> <span class="o">=</span> <span class="n">err</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_results</span><span class="p">[</span><span class="n">task</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span>
+
+		<span class="c1"># Put this worker back in the idle queue. Doing this in a separate thread ensures</span>
+		<span class="c1"># that the pool thread does not get indefinitely blocked waiting for a worker to become</span>
+		<span class="c1"># available</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_running</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">wrk_id</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_idle</span><span class="o">.</span><span class="n">put_nowait</span><span class="p">(</span><span class="n">worker</span><span class="p">)</span>
+
+	<span class="nd">@staticmethod</span>
+	<span class="k">def</span> <span class="nf">parse_args</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+		<span class="k">return</span> <span class="n">_get_args_parser</span><span class="p">()</span><span class="o">.</span><span class="n">parse_args</span><span class="p">(</span><span class="n">args</span><span class="p">)</span></div>
+
+<span class="k">def</span> <span class="nf">_get_args_parser</span><span class="p">():</span>
+	<span class="sd">&#39;&#39;&#39;	Create the argument parser that defines the set of options available to configure</span>
+<span class="sd">		a distributed pool</span>
+
+<span class="sd">		.. Tip:: To see options available, locate this file in a command shell and execute `python distributed_pool.py -h`</span>
+<span class="sd">	&#39;&#39;&#39;</span>
+	<span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+	<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--uri&#39;</span><span class="p">,</span> <span class="s1">&#39;-u&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Job manager URI&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+	<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--address&#39;</span><span class="p">,</span> <span class="s1">&#39;-a&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;IP adress&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+	<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--port&#39;</span><span class="p">,</span> <span class="s1">&#39;-p&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">20000</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;TCP port&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+	<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--name&#39;</span><span class="p">,</span> <span class="s1">&#39;-n&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;jobmgr&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Job manager name&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+	<span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--msg&#39;</span><span class="p">,</span><span class="s1">&#39;-m&#39;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;?&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;Job manager ready to proces jobs:&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Message to display when object is started&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+	<span class="c1">#parser.add_argument(&#39;--nserver&#39;, &#39;-ns&#39;,action=&#39;store_true&#39;, help=&#39;Run with name server&#39;)</span>
+	<span class="k">return</span> <span class="n">parser</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+	<span class="n">run_object</span><span class="p">(</span><span class="n">JobManager</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+      
+    </p>
+    <p>
+        &copy; Copyright 2017, Marc Sanchez Net.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>

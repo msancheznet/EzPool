@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>ezpool.trials &mdash; EzPool v0.1</title>
+    
+    <link rel="stylesheet" href="../../_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootswatch-3.3.6/cosmo/bootstrap.min.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/bootstrap-sphinx.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="../../_static/js/jquery-fix.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../_static/bootstrap-sphinx.js"></script>
+    <link rel="top" title="EzPool v0.1" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+<meta charset='utf-8'>
+<meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
+<meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1'>
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+  </head>
+  <body role="document">
+
+  <div id="navbar" class="navbar navbar-inverse navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- .btn-navbar is used as the toggle for collapsed navbar content -->
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="../../index.html">
+          EzPool</a>
+        <span class="navbar-text navbar-version pull-left"><b>0.1</b></span>
+      </div>
+
+        <div class="collapse navbar-collapse nav-collapse">
+          <ul class="nav navbar-nav">
+            
+            
+              <li class="dropdown globaltoc-container">
+  <a role="button"
+     id="dLabelGlobalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="../../index.html">Site <b class="caret"></b></a>
+  <ul class="dropdown-menu globaltoc"
+      role="menu"
+      aria-labelledby="dLabelGlobalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../API.html">1. Reference Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../API.html#module-ezpool.trials">1.1. EzPool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../API.html#module-ezpool.scheduler">1.2. Distributed Programming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../API.html#module-ezpool.testing">1.3. Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../API.html#module-ezpool.objects">1.4. Utilities</a></li>
+</ul>
+</li>
+</ul>
+</ul>
+</li>
+              
+                <li class="dropdown">
+  <a role="button"
+     id="dLabelLocalToc"
+     data-toggle="dropdown"
+     data-target="#"
+     href="#">Page <b class="caret"></b></a>
+  <ul class="dropdown-menu localtoc"
+      role="menu"
+      aria-labelledby="dLabelLocalToc"><ul>
+<li class="toctree-l1"><a class="reference internal" href="../../API.html">1. Reference Guide</a></li>
+</ul>
+</ul>
+</li>
+              
+            
+            
+            
+            
+            
+          </ul>
+
+          
+            
+<form class="navbar-form navbar-right" action="../../search.html" method="get">
+ <div class="form-group">
+  <input type="text" name="q" class="form-control" placeholder="Search" />
+ </div>
+  <input type="hidden" name="check_keywords" value="yes" />
+  <input type="hidden" name="area" value="default" />
+</form>
+          
+        </div>
+    </div>
+  </div>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 content">
+      
+  <h1>Source code for ezpool.trials</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">scheduler</span> <span class="kn">import</span> <span class="n">_get_args_parser</span><span class="p">,</span> <span class="n">JobManager</span>
+<span class="kn">from</span> <span class="nn">objects</span> <span class="kn">import</span> <span class="n">run_object</span><span class="p">,</span> <span class="n">spawn_object</span>
+<span class="kn">from</span> <span class="nn">proxies</span> <span class="kn">import</span> <span class="n">EzProxy</span><span class="p">,</span> <span class="n">connect_to</span>
+<span class="kn">from</span> <span class="nn">worker</span> <span class="kn">import</span> <span class="n">EchoWorker</span>
+
+<div class="viewcode-block" id="EzPool"><a class="viewcode-back" href="../../API.html#ezpool.trials.EzPool">[docs]</a><span class="k">class</span> <span class="nc">EzPool</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+	<span class="sd">&quot;&quot;&quot; This class provides an unique interface to run a set of tasks in serial, parallel or</span>
+<span class="sd">		distributed mode. To run tasks in through this Pool, use the ``map`` function.</span>
+
+<span class="sd">		**Serial Mode**: All tasks are run in order in one core:</span>
+<span class="sd">		</span>
+<span class="sd">		.. code-block:: python</span>
+<span class="sd">			:linenos:</span>
+
+<span class="sd">			tasks = list(range(30))</span>
+<span class="sd">			with Pool(mode=&#39;serial&#39;) as pool:</span>
+<span class="sd">				results = pool.map(tasks)</span>
+
+<span class="sd">		**Parallel Mode**:All tasks are run in multiple cores of one machine (no order is preserved):</span>
+
+<span class="sd">		.. code-block:: python</span>
+<span class="sd">			:linenos:</span>
+
+<span class="sd">			tasks = list(range(30))</span>
+<span class="sd">			with Pool(mode=&#39;parallel&#39;, ncores=5) as pool:</span>
+<span class="sd">				results = pool.map(tasks)</span>
+
+<span class="sd">		**Distributed Mode**:All tasks are run in multiple cores of one or multiple machines (no order is preserved):</span>
+
+<span class="sd">		.. code-block:: python</span>
+<span class="sd">			:linenos:</span>
+
+<span class="sd">			from workers import EchoWorker</span>
+
+<span class="sd">			tasks   = list(range(30))</span>
+<span class="sd">			workers = (&#39;PYRO:worker@localhost:21000&#39;, &#39;PYRO:worker@remote:21000&#39;)</span>
+<span class="sd">			worker_type = EchoWorker</span>
+<span class="sd">			with Pool(mode=&#39;parallel&#39;, workers=workers, worker_type=worker_type) as pool:</span>
+<span class="sd">				results = pool.map(tasks)</span>
+
+<span class="sd">		The distributed mode relies on the JobManager object to schedule tasks across workers. In</span>
+<span class="sd">		general, you will run the JobManager on your local machine, but that is not required. Also,</span>
+<span class="sd">		the JobManager is set up so that you can add/remove workers while computations are going on,</span>
+<span class="sd">		but removing a worker that is currently running a task will result in that task not being</span>
+<span class="sd">		evaluated.</span>
+
+<span class="sd">		.. Tip:: The `map` function of this pool is blocking, i.e. the current thread will wait until</span>
+<span class="sd">				 all the results are available before proceeding.</span>
+<span class="sd">		.. Tip:: You could use the distributed mode and have the Job Manager and the workers live in</span>
+<span class="sd">				 the localhost. This would essentially be equivalent to the `parallel` mode, but will</span>
+<span class="sd">				 incur in more overhead, so it is not recommended.</span>
+<span class="sd">		.. Tip:: For testing purposes, you can use the distributed mode without any parameters for the</span>
+<span class="sd">				 `map` function. This will just spawn new processes in the local machine for the job manager</span>
+<span class="sd">				 and workers, and clean them after the jobs have been run.</span>
+<span class="sd">	&quot;&quot;&quot;</span>
+	<span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;distributed&#39;</span><span class="p">):</span>
+		<span class="k">if</span> <span class="n">mode</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;serial&#39;</span><span class="p">,</span> <span class="s1">&#39;parallel&#39;</span><span class="p">,</span> <span class="s1">&#39;distributed&#39;</span><span class="p">]:</span>
+			<span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Pool mode is set to {}. Allowed values are &quot;serial&quot;, &quot;parallel&quot;,&quot;distributed&quot;&#39;</span><span class="p">)</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_mode</span>  <span class="o">=</span> <span class="n">mode</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_procs</span> <span class="o">=</span> <span class="p">{}</span>
+
+	<span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">return</span> <span class="bp">self</span>
+
+	<span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">):</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+		<span class="k">return</span> <span class="bp">False</span>	<span class="c1"># Reraise the exception</span>
+
+	<span class="k">def</span> <span class="nf">shutdown</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+		<span class="k">for</span> <span class="n">uri</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_procs</span><span class="p">:</span>
+			<span class="n">proxy</span> <span class="o">=</span> <span class="n">EzProxy</span><span class="p">(</span><span class="n">uri</span><span class="p">)</span>
+			<span class="k">if</span> <span class="n">proxy</span><span class="o">.</span><span class="n">connected</span><span class="p">:</span>
+				<span class="n">proxy</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+				<span class="n">proxy</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_procs</span><span class="p">[</span><span class="n">uri</span><span class="p">]</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span>
+		<span class="bp">self</span><span class="o">.</span><span class="n">_procs</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+	<span class="k">def</span> <span class="nf">map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tasks</span><span class="p">,</span> <span class="n">job_mgr</span><span class="o">=</span><span class="s1">&#39;PYRO:jobmgr@localhost:20000&#39;</span><span class="p">,</span> <span class="n">workers</span><span class="o">=</span><span class="p">(</span><span class="s1">&#39;PYRO:worker@localhost:21000&#39;</span><span class="p">,),</span> <span class="n">worker_type</span><span class="o">=</span><span class="n">EchoWorker</span><span class="p">):</span>
+		<span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span> <span class="o">==</span> <span class="s1">&#39;serial&#39;</span><span class="p">:</span>
+			<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_submit_serial</span><span class="p">(</span><span class="n">tasks</span><span class="p">)</span>
+		<span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mode</span> <span class="o">==</span> <span class="s1">&#39;parallel&#39;</span><span class="p">:</span>
+			<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_submit_parallel</span><span class="p">(</span><span class="n">tasks</span><span class="p">)</span>
+		<span class="k">else</span><span class="p">:</span>
+			<span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_submit_distributed</span><span class="p">(</span><span class="n">tasks</span><span class="p">,</span> <span class="n">job_mgr</span><span class="p">,</span> <span class="n">workers</span><span class="p">,</span> <span class="n">worker_type</span><span class="p">)</span>
+
+	<span class="k">def</span> <span class="nf">_submit_serial</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tasks</span><span class="p">):</span>
+		<span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+	<span class="k">def</span> <span class="nf">_submit_parallel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tasks</span><span class="p">):</span>
+		<span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">()</span>
+
+	<span class="k">def</span> <span class="nf">_submit_distributed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tasks</span><span class="p">,</span> <span class="n">job_mgr</span><span class="p">,</span> <span class="n">workers</span><span class="p">,</span> <span class="n">worker_type</span><span class="o">=</span><span class="n">EchoWorker</span><span class="p">):</span>
+		<span class="k">try</span><span class="p">:</span>
+			<span class="n">job_mgr_p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_proxy</span><span class="p">(</span><span class="n">job_mgr</span><span class="p">,</span> <span class="n">JobManager</span><span class="p">)</span>
+			<span class="k">for</span> <span class="n">worker</span> <span class="ow">in</span> <span class="n">workers</span><span class="p">:</span>
+				<span class="n">worker_p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_new_proxy</span><span class="p">(</span><span class="n">worker</span><span class="p">,</span> <span class="n">worker_type</span><span class="p">)</span>
+				<span class="n">job_mgr_p</span><span class="o">.</span><span class="n">add_worker</span><span class="p">(</span><span class="n">worker</span><span class="p">)</span>
+				<span class="n">worker_p</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+		<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
+			<span class="k">raise</span> <span class="n">e</span>
+
+		<span class="n">res</span> <span class="o">=</span> <span class="n">job_mgr_p</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">tasks</span><span class="p">)</span>
+		<span class="n">job_mgr_p</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+		<span class="k">return</span> <span class="n">res</span>
+
+	<span class="k">def</span> <span class="nf">_new_proxy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uri</span><span class="p">,</span> <span class="n">obj_type</span><span class="p">):</span>
+		<span class="n">proxy</span><span class="p">,</span> <span class="n">proc</span> <span class="o">=</span> <span class="n">connect_to</span><span class="p">(</span><span class="n">uri</span><span class="p">,</span> <span class="n">obj_type</span><span class="p">)</span>
+		<span class="k">if</span> <span class="n">proc</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">_procs</span><span class="p">[</span><span class="n">uri</span><span class="p">]</span> <span class="o">=</span> <span class="n">proc</span>
+		<span class="k">return</span> <span class="n">proxy</span></div>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+	<span class="n">workers</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;PYRO:worker@localhost:21000&#39;</span><span class="p">,</span><span class="s1">&#39;PYRO:worker@localhost:21001&#39;</span><span class="p">)</span>
+
+	<span class="k">with</span> <span class="n">EzPool</span><span class="p">()</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+		<span class="k">print</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">map</span><span class="p">([</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">500</span><span class="p">)],</span><span class="n">workers</span><span class="o">=</span><span class="n">workers</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+      
+  </div>
+</div>
+<footer class="footer">
+  <div class="container">
+    <p class="pull-right">
+      <a href="#">Back to top</a>
+      
+        <br/>
+        
+      
+    </p>
+    <p>
+        &copy; Copyright 2017, Marc Sanchez Net.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.4.1.<br/>
+    </p>
+  </div>
+</footer>
+  </body>
+</html>
