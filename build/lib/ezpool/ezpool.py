@@ -2,6 +2,7 @@ from ezproxy import EzProxy, connect_to
 from objects import run_object, spawn_object
 from scheduler import _get_args_parser, JobManager
 from utils import LogFun
+from collections import defaultdict
 import multiprocessing as mp
 
 class EzPool(object):
@@ -105,16 +106,25 @@ class EzPool(object):
 				with Pool(mode='parallel') as p:
 					res = p.map(fun, range(30), ncpu=2)
 		"""
+		d = defaultdict()
+		d.update(kwargs)
+
 		if self._mode is 'serial':
-			return self.smap(*args, **kwargs)
+			sargs = ['fun','tasks','msg']
+			kwargs = dict([(a,D.get(a)) for a in sargs if D.get(a) is not None])
+			return self.smap(**kwargs)
 		elif self._mode is 'parallel':
-			return self.pmap(*args, **kwargs)
+			pargs = ['fun','tasks','ncpu','msg']
+			kwargs = dict([(a,D.get(a)) for a in pargs if D.get(a) is not None])
+			return self.pmap(**kwargs)
 		elif self._mode is 'distributed':
-			return self.dmap(*args, **kwargs)
+			dargs = ['fun','tasks','job_mgr','workers']
+			kwargs = dict([(a,D.get(a)) for a in dargs if D.get(a) is not None])
+			return self.dmap(**kwargs)
 		else:
 			raise ValueError("map can only be used if the pool has mode 'serial', 'parallel', 'distributed'. Otherwise, use smap, pmap, dmap")
 
-	def smap(self, fun, tasks, msg='Computation process'):
+	def smap(self, fun=None, tasks=None, msg='Computation process'):
 		""" Run tasks in serial mode 
 			
 			:param func fun: Function to run for each task
@@ -144,7 +154,7 @@ class EzPool(object):
 
 		return dict(zip(tasks, results))
 
-	def pmap(self, fun, tasks, ncpu=1, msg='Computation process'):
+	def pmap(self, fun=None, tasks=None, ncpu=1, msg='Computation process'):
 		""" Run tasks in parallel mode 
 
 			:param func fun: Function to run for each task
@@ -180,7 +190,7 @@ class EzPool(object):
 
 		return dict(zip(tasks, results))
 
-	def dmap(self, tasks, job_mgr='PYRO:jobmgr@localhost:20000', workers=('PYRO:worker@localhost:21000',), fun=None):
+	def dmap(self, fun=None, tasks=None, job_mgr='PYRO:jobmgr@localhost:20000', workers=('PYRO:worker@localhost:21000',)):
 		""" Run tasks in distributed mode 
 
 			:param list tasks: List of tasks to complete. Arguments for each task should
@@ -188,7 +198,7 @@ class EzPool(object):
 							   to the arguments of ``fun``
 			:param job_mgr: URI for the job manager (default is 'PYRO:jobmgr@localhost:20000')
 			:param list workers: URIs for the workers (default is ['PYRO:worker@localhost:21000'])
-			:param class worker_type: Type of worker to run tasks (default is ezpool.workers.EchoWorker)
+			:param class fun: Type of worker to run tasks (default is ezpool.workers.EchoWorker)
 		"""
 		try:
 			# Connect to the job manager (or create a local one if necessary)
