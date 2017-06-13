@@ -5,6 +5,8 @@ from utils import LogFun
 from collections import defaultdict
 import multiprocessing as mp
 
+from worker import fib, build_worker, FibWorker
+
 class EzPool(object):
 	""" This class provides an unique interface to run a set of tasks in serial, parallel or
 		distributed mode. To run tasks in through this Pool, use the ``map`` function.
@@ -174,7 +176,7 @@ class EzPool(object):
 		futures = [pool.apply_async(LogFun(fun), args=self._wrap_task(task)) for task in tasks]
 
 		# Get the results
-		for i, future in enumerate(futures):
+		for i, (task, future) in enumerate(zip(tasks,futures)):
 			# Wait until available
 			res, telapsed = future.get()
 
@@ -259,14 +261,12 @@ def show_progress(task, result, i, N, t, msg='Computation process'):
 
 if __name__ == '__main__':
 
-	from worker import fib, build_worker, FibWorker
+	
 
 	workers = ('PYRO:worker@localhost:21000','PYRO:worker@localhost:21001')
 	with EzPool() as p:
-		res1 = p.pmap(fib, range(30), ncpu=2)
-		res2 = p.dmap(range(30), workers=workers, fun=FibWorker)
+		res1 = p.pmap(fun=fib, tasks=range(35), ncpu=2)
+		res2 = p.dmap(fun=FibWorker, tasks=range(35), workers=workers)
 		#res2 = p.dmap(range(30), workers=workers, fun=build_worker(fib))
 	print(res1)
 	print(res2)
-
-

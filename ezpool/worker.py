@@ -45,6 +45,10 @@ class EchoWorker(BaseWorker):
 	""" A simple worker that just echoes back the input it receives """
 	def run(self, inp):
 		return inp
+
+class FibWorker(BaseWorker):
+	def run(self, inp):
+		return fib(inp)
 		
 def _get_args_parser():
 	parser = argparse.ArgumentParser()

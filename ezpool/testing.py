@@ -42,4 +42,4 @@ def test_empty_pool_error(empty_pool):
 		empty_pool.map([1])
 
 if __name__ == '__main__':
-	pytest.main(['test.py'])
+	pytest.main(['testing.py'])
